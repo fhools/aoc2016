@@ -61,15 +61,11 @@ pub fn part1() {
 
 pub fn part2() {
     let input = input_p1();
-    let only_real = input.lines()
+    input.lines()
         .filter(|s| is_real(s).is_some())
-        .map(decrypt_string);
-
-    for s in only_real {
-        if s.0.contains("north") {
-            println!("found {:?}", s);
-        }
-    }
+        .map(decrypt_string)
+        .filter(|s| s.0.contains("north"))
+        .for_each(|s| println!("found 'north': {:?}", s));
 }
 
 fn main() {
