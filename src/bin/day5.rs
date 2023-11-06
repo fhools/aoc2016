@@ -81,7 +81,6 @@ fn extract_password_p2(s: &str) -> String {
     unreachable!("should never return without string")
 }
 fn main() {
-    //println!("c of hash is {:?}", c) 
     let pw = extract_password_p1("cxdnnyjw");
     println!("p1 password for cxdnnyjw:  {}", pw);
 
