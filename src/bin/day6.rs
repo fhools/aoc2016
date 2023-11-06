@@ -21,9 +21,9 @@ fn compute_freq_columns(part1: bool) -> String {
         let mut values : Vec<(char, usize)> = v.values().cloned().collect();
         values.sort_by(|a ,b| {
                        if !part1 {
-                           a.1.partial_cmp(&b.1).unwrap()
+                           a.1.cmp(&b.1)
                        } else {
-                           b.1.partial_cmp(&a.1).unwrap()
+                           b.1.cmp(&a.1)
                        }
         });
         if !values.is_empty() {

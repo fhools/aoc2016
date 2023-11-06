@@ -19,9 +19,9 @@ pub fn is_real(input: &str) -> Option<i32> {
     let mut values : Vec<(String, usize)> =  map.values().cloned().collect();
     values.sort_by(|a, b| 
                    if a.1 == b.1 {
-                      a.0.partial_cmp(&b.0).unwrap()
+                      a.0.cmp(&b.0)
                    } else {
-                       b.1.partial_cmp(&a.1).unwrap()
+                       b.1.cmp(&a.1)
                    });
     let k = values.into_iter().take(5).map(|a| a.0).collect::<String>();
     if k == given_checksum {
