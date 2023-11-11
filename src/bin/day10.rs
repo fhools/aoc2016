@@ -123,29 +123,11 @@ fn push_value(
         push_value(high_dest, Some(values[1]), sm, found);
     }
 }
-fn dfs(node: NodeKey, sm: &mut SlotMap<NodeKey, Node>, visited: &mut Vec<NodeKey>) {
-    if visited.contains(&node) {
-        return;
-    }
-    visited.push(node);
-    let node = sm.get_mut(node).unwrap().clone();
-    println!("visiting node: {:?}", node);
-    if node.values.contains(&5) && node.values.contains(&2) {
-        println!("part 1: {}", node.node_id);
-    }
-
-    if node.node_type == "bot" {
-        dfs(node.low_dest, sm, visited);
-        dfs(node.high_dest, sm, visited);
-    }
-}
 
 fn main() {
     let (values, gives) = get_input();
     let mut node_id_to_key = HashMap::new();
     let mut sm: SlotMap<NodeKey, Node> = SlotMap::with_key();
-    let mut startnode = NodeKey::null();
-    let mut visited: Vec<NodeKey> = Vec::new();
 
     // iterate through the values instructions and
     // create the nodes in the slotmap graph
@@ -169,10 +151,6 @@ fn main() {
                 if let Some(node) = sm.get_mut(nodekey) {
                     node.values.push(*value);
                     println!("node: {}, values: {:?}", node.node_id, node.values);
-                    if node.values.len() == 2 {
-                        startnode = nodekey;
-                        println!("startnode: {:?}", node);
-                    }
                 }
                 node_id_to_key.insert(*bot, nodekey);
             }
@@ -278,12 +256,14 @@ fn main() {
     }
 
     loop {
-        // check to see if any bot nodes still have 2 values
+        // keep pushing value through the system
         let mut found = false;
         for (_k, v) in node_id_to_key.iter() {
             push_value(*v, None, &mut sm, &mut found);
         }
 
+        // after one full iteration. check to see if any bots still
+        // have 2 values. if not, break out of the loop
         let mut found = false;
         for (_k, v) in node_id_to_key.iter() {
             if let Some(node) = sm.get_mut(*v) {
@@ -293,12 +273,10 @@ fn main() {
                 }
             }
         }
+        // no more values in bots, it should all be in outpputs now
         if !found {
             break;
         }
-
-        visited.clear();
-        dfs(startnode, &mut sm, &mut visited);
     }
 
     let mut product = 1;
