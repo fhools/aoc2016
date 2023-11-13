@@ -9,3 +9,6 @@ edition = "2021"
 hex = "0.4.3"
 md-5 = "0.10.6"
 slotmap = "1.0.6"
+
+[profile.release]
+opt-level = 3
