@@ -51,6 +51,9 @@ fn path_to(start: (i32, i32), dest: (i32, i32), fav_num: i32) -> Vec<(i32, i32)>
             if !is_pos_wall(w.0, w.1, fav_num) && !visited.contains(&w) {
                 q.push_back(w);
                 pred.entry(w).or_insert(pos);
+
+                // read then write, trying to nest .get() call with .entry() call
+                // results in a borrow checker error.
                 let w_dist = distances.get(&pos).unwrap() + 1;
                 distances.entry(w).or_insert(w_dist);
             }
