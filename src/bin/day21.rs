@@ -136,7 +136,7 @@ fn main() {
     let word = "abcdefgh";
     let scrambled = "fbgdceah";
 
-    // example input
+    // example input    
     // let instr = vec![
     //     "swap position 4 with position 0".to_string(),
     //     "swap letter d with letter b".to_string(),
